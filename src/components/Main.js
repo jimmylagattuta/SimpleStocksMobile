@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser } from '../actions';
+import {
+	emailChanged,
+	passwordChanged,
+	signupEmailChanged,
+	signupPasswordChanged,
+	signupPasswordConfirmationChanged,
+	loginUser,
+	signupUser
+} from '../actions';
 import { Card, CardSection, Button, Input, Spinner } from './common';
 
 class Main extends Component {
@@ -18,9 +26,26 @@ class Main extends Component {
 		this.props.passwordChanged(text);
 	}
 
+	onSignupEmailChange(text) {
+		this.props.signupEmailChanged(text);
+	}
+
+	onSignupPasswordChange(text) {
+		this.props.signupPasswordChanged(text);
+	}
+
+	onSignupPasswordConfirmationChange(text) {
+		this.props.signupPasswordConfirmationChanged(text);
+	}
+
 	onButtonPress() {
 		const { email, password } = this.props;
 		this.props.loginUser({ email, password });
+	}
+
+	onButtonSignupPress() {
+		const { signupEmail, signupPassword, signupPasswordConfirmation } = this.props;
+		this.props.signupUser({ signupEmail, signupPassword, signupPasswordConfirmation });
 	}
 
 	renderButton() {
@@ -35,6 +60,18 @@ class Main extends Component {
 		);
 	}
 
+	renderButtonSignup() {
+		if (this.props.loadingSignup) {
+			return <Spinner size="large" />;
+		}
+
+		return (
+			<Button onPress={this.onButtonSignupPress.bind(this)}>
+				Create Account
+			</Button>
+		);
+	}
+
 	renderError() {
 		if (this.props.error) {
 			return (
@@ -45,6 +82,38 @@ class Main extends Component {
 				>
 					<Text style={styles.errorTextStyle}>
 						{this.props.error}
+					</Text>
+				</View>
+			);
+		}
+	}
+
+	renderErrorSignup() {
+		if (this.props.errorSignup) {
+			return (
+				<View
+					style={{
+						backgroundColor: 'white'
+					}}
+				>
+					<Text style={styles.errorTextStyle}>
+						{this.props.errorSignup}
+					</Text>
+				</View>
+			);
+		}
+	}
+
+	renderErrorSignupConfirmation() {
+		if (this.props.errorSignupConfirmation) {
+			return (
+				<View
+					style={{
+						backgroundColor: 'white'
+					}}
+				>
+					<Text style={styles.errorTextStyle}>
+						{this.props.errorSignupConfirmation}
 					</Text>
 				</View>
 			);
@@ -79,6 +148,45 @@ class Main extends Component {
 					<CardSection>
 						{this.renderButton()}
 					</CardSection>
+
+				</Card>
+
+				<Card>
+					<CardSection>
+						<Input
+							label="Email"
+							placeholder="your@email"
+							onChangeText={this.onSignupEmailChange.bind(this)}
+							value={this.props.signupEmail}
+						/>
+					</CardSection>
+
+					<CardSection>
+						<Input
+							secureTextEntry
+							label="Password"
+							placeholder="password"
+							onChangeText={this.onSignupPasswordChange.bind(this)}
+							value={this.props.signupPassword}
+						/>
+					</CardSection>
+
+					<CardSection>
+						<Input
+							secureTextEntry
+							label="Password Confirmation"
+							placeholder="password"
+							onChangeText={this.onSignupPasswordConfirmationChange.bind(this)}
+							value={this.props.signupPasswordConfirmation}
+						/>
+					</CardSection>
+
+					{this.renderErrorSignup()}
+					{this.renderErrorSignupConfirmation()}
+
+					<CardSection>
+						{this.renderButtonSignup()}
+					</CardSection>
 				</Card>
 			</View>
 		);
@@ -94,9 +202,39 @@ const styles = {
 };
 
 const mapStateToProps = ({ auth }) => {
-	const { email, password, error, loading } = auth;
+	const {
+		email,
+		password,
+		signupEmail,
+		signupPassword,
+		signupPasswordConfirmation,
+		error,
+		errorSignup,
+		errorSignupConfirmation,
+		loading,
+		loadingSignup
+	} = auth;
 
-	return { email, password, error, loading };
+	return {
+		email,
+		password,
+		signupEmail,
+		signupPassword,
+		signupPasswordConfirmation,
+		error,
+		errorSignup,
+		errorSignupConfirmation,
+		loading,
+		loadingSignup
+	};
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(Main);
+export default connect(mapStateToProps, {
+	emailChanged,
+	passwordChanged,
+	signupEmailChanged,
+	signupPasswordChanged,
+	signupPasswordConfirmationChanged,
+	loginUser,
+	signupUser
+})(Main);
