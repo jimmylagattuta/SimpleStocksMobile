@@ -5,3 +5,4 @@ export * from './Spinner';
 export * from './Input';
 export * from './Button';
 export * from './Confirm';
+export * from './Dismiss';

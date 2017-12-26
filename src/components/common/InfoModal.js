@@ -3,7 +3,7 @@ import { Text, View, Modal } from 'react-native';
 import { CardSection } from './CardSection';
 import { Button } from './Button';
 
-const Confirm = ({ children, visible, onAccept, onDecline }) => {
+const InfoModal = ({ children, visible, info }) => {
 	const { cardSectionStyle, textStyle, containerStyle } = styles;
 
 	return (
@@ -19,8 +19,11 @@ const Confirm = ({ children, visible, onAccept, onDecline }) => {
 				</CardSection>
 
 				<CardSection>
-					<Button onPress={onAccept}>Yes</Button>
-					<Button onPress={onDecline}>No</Button>
+					<Text>Info: {info}</Text>
+				</CardSection>
+
+				<CardSection>
+					<Button onPress={() => console.log('pressed')}>Press</Button>
 				</CardSection>
 			</View>
 		</Modal>
@@ -45,4 +48,4 @@ const styles = {
 	}
 };
 
-export { Confirm };
+export { InfoModal };

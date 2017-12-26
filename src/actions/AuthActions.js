@@ -99,7 +99,7 @@ const loginUserSuccess = (dispatch, user) => {
 		payload: user
 	});
 
-	Actions.main();
+	Actions.ready();
 };
 
 const loginUserFail = (dispatch) => {

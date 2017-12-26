@@ -9,3 +9,12 @@ export const LOGIN_USER_SUCCESS = 'login_user_success';
 export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER_FAIL_SIGNUP = 'login_user_fail_signup';
 export const LOGIN_USER_FAIL_SIGNUP_CONFIRMATION = 'login_user_fail_signup_confirmation';
+
+export const SYMBOL_CHANGED = 'symbol_changed';
+export const SEARCH_STOCK = 'search_stock';
+export const SEARCH_STOCK_SUCCESS = 'search_stock_success';
+export const SEARCH_STOCK_FAIL = 'search_stock_fail';
+export const SET_USER_CAPITAL = 'set_user_capital';
+export const SET_USER_CAPITAL_SUCCESS = 'set_user_capital_success';
+export const SET_USER_CAPITAL_FAIL = 'set_user_capital_fail';
+export const FETCH_STATS_SUCCESS = 'fetch_state_success';
