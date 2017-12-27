@@ -9,13 +9,23 @@ import {
 	SET_USER_CAPITAL,
 	SET_USER_CAPITAL_SUCCESS,
 	SET_USER_CAPITAL_FAIL,
-	FETCH_STATS_SUCCESS
+	FETCH_STATS_SUCCESS,
+	BUY_STOCKS_SUCCESS,
+	QUATITTY_CHANGED,
+	FETCH_STATS_SUCCESS_FOR_BUY
 } from './types';
 
 export const symbolChanged = (text) => {
 	return {
 		type: SYMBOL_CHANGED,
 		payload: text	
+	};
+};
+
+export const quantityOfStock = (text) => {
+	return {
+		type: QUATITTY_CHANGED,
+		payload: text
 	};
 };
 
@@ -27,6 +37,18 @@ export const fetchStats = () => {
 		firebase.database().ref(`/users/${currentUser.uid}/stats`)
 			.on('value', snapshot => {
 				dispatch({ type: FETCH_STATS_SUCCESS, payload: snapshot.val() });
+			});
+	};
+};
+
+export const sendStatsForBuy = () => {
+	const { currentUser } = firebase.auth();
+	console.log('this runs');
+
+	return (dispatch) => {
+		firebase.database().ref(`/users/${currentUser.uid}/stats`)
+			.on('value', snapshot => {
+				dispatch({ type: FETCH_STATS_SUCCESS_FOR_BUY, payload: snapshot.val() });
 			});
 	};
 };
@@ -91,6 +113,34 @@ const setUserCapitalFail = (dispatch) => {
 
 	Actions.ready();
 };
+
+
+// export const buyStocks = (uid) => {
+// 	const { currentUser } = firebase.auth();
+// 	const cash = 0.00;
+
+// 	return (dispatch) => {
+// 		firebase.database().ref(`/users/${currentUser.uid}/stats/cash/${uid}`)
+// 			.set({ cash })
+// 			.then((response) => {
+// 				dispatch({ type: BUY_STOCKS_SUCCESS, payload: response });
+// 				Actions.ready({ type: 'reset' });
+// 			});
+// 	};
+// };
+
+// export const employeeSave = ({ name, phone, shift, uid }) => {
+// 	const { currentUser } = firebase.auth();
+
+// 	return (dispatch) => {
+// 		firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
+// 			.set({ name, phone, shift })
+// 			.then(() => {
+// 				dispatch({ type: EMPLOYEE_SAVE_SUCCESS });
+// 				Actions.main({ type: 'reset' });
+// 			});
+// 	};
+// };
 
 // export const employeesFetch = () => {
 // 	const { currentUser } = firebase.auth();

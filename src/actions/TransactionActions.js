@@ -15,5 +15,6 @@ export const buyStocksTraits = (symbol, pricePerShare) => {
 
 	return (dispatch) => {
 		dispatch({ type: BUY_STOCKS_TRAITS, payload: bundle });
+		Actions.buyhome();
 	};
 };

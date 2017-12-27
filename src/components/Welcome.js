@@ -3,7 +3,7 @@ import { ScrollView, Text } from 'react-native';
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { symbolChanged, searchStock, setUserCapital, buyStocksTraits } from '../actions';
+import { symbolChanged, searchStock, setUserCapital, buyStocksTraits, fetchStats } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import StatList from './StatList';
 import StockItem from './renderItemComponents/StockItem';
@@ -12,6 +12,8 @@ class Welcome extends Component {
 	componentWillMount() {
 		console.log('Welcome page');
 		console.log('this.props', this.props);
+
+		this.props.fetchStats();
 	}
 
 	onSymbolChange(text) {
@@ -144,7 +146,8 @@ export default connect(mapStateToProps, {
 		symbolChanged,
 		searchStock,
 		setUserCapital,
-		buyStocksTraits 
+		buyStocksTraits,
+		fetchStats
 })(Welcome);
 
 // days percentage c

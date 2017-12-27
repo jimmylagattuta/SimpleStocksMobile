@@ -21,3 +21,7 @@ export const FETCH_STATS_SUCCESS = 'fetch_state_success';
 export const FETCH_STATS_SUCCESS_STOCK_SEARCH_REDUCER = 'fetch_state_success_stock_search_reducer';
 
 export const BUY_STOCKS_TRAITS = 'buy_stocks_traits';
+export const BUY_STOCKS_SUCCESS = 'buy_stocks_success';
+export const QUANTITY_CHANGED = 'quantity_changed';
+
+export const FETCH_STATS_SUCCESS_FOR_BUY = 'fetch_stats_success_for_buy';
