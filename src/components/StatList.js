@@ -7,6 +7,9 @@ import { fetchStats } from '../actions';
 import StatItem from './renderItemComponents/StatItem';
 
 class StatList extends Component {
+	state = {
+		page: ''
+	}
 	componentWillMount() {
 		console.log('StatList');
 		console.log('this.props', this.props);

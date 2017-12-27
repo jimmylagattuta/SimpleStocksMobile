@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { symbolChanged, searchStock, setUserCapital } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import StatList from './StatList';
+import StockItem from './renderItemComponents/StockItem';
 
 class Welcome extends Component {
 	componentWillMount() {
@@ -33,15 +34,21 @@ class Welcome extends Component {
 	}
 
 	renderButtonMoney() {
-		if (this.props.loadingCash) {
-			return <Spinner size="small" />;
-		}
+		if (this.props.money) {
+			return (
+				<Text>${this.props.money}</Text>
+			);
+		} else {
+			if (this.props.loadingCash) {
+				return <Spinner size="small" />;
+			}
 
-		return (
-			<Button onPress={this.onButtonPressMoney.bind(this)}>
-				Start Buying Stocks
-			</Button>
-		);
+			return (
+				<Button onPress={this.onButtonPressMoney.bind(this)}>
+					Start Buying Stocks
+				</Button>
+			);
+		}
 	}
 
 	renderButton() {
@@ -59,6 +66,15 @@ class Welcome extends Component {
 	renderStatList() {
 		return (
 			<StatList />
+		);
+	}
+
+	renderStockSearch() {
+		console.log('renderStockSearch, sending to StockItem');
+		console.log('this.props.stockObject', this.props.stockObject);
+
+		return (
+			<StockItem stockObject={this.props.stockObject} />
 		);
 	}
 
@@ -85,7 +101,11 @@ class Welcome extends Component {
 
 				<CardSection>
 					{this.renderStatList()}
-				</CardSection>				
+				</CardSection>
+
+				<CardSection>
+					{this.renderStockSearch()}
+				</CardSection>
 			</Card>
 		);
 	}

@@ -7,7 +7,8 @@ import {
 	SET_USER_CAPITAL_SUCCESS,
 	SET_USER_CAPITAL_FAIL,
 	LOGIN_USER_AFTER_SIGNUP,
-	LOGIN_USER_AFTER_SIGNUP_SUCCESS
+	LOGIN_USER_AFTER_SIGNUP_SUCCESS,
+	FETCH_STATS_SUCCESS_STOCK_SEARCH_REDUCER
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,7 +18,7 @@ const INITIAL_STATE = {
 	loadingCash: '',
 	error: '',
 	user: null,
-	stats: []
+	money: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -25,9 +26,9 @@ export default (state = INITIAL_STATE, action) => {
 
 	switch (action.type) {
 		case SEARCH_STOCK:
-			return { ...state, stockObject: action.payload, loading: true };
+			return { ...state };
 		case SEARCH_STOCK_SUCCESS:
-			return { ...state, ...INITIAL_STATE };
+			return { ...state, stockObject: action.payload, loading: false };
 		case SEARCH_STOCK_FAIL:
 			return { ...state, error: 'Something Went Wrong', loading: false };
 		case SYMBOL_CHANGED:
@@ -42,6 +43,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, loadingCash: true, error: '' };
 		case LOGIN_USER_AFTER_SIGNUP_SUCCESS:
 			return { ...state, ...INITIAL_STATE, loadingCash: false, user: action.payload };
+		case FETCH_STATS_SUCCESS_STOCK_SEARCH_REDUCER:
+			return { ...state, money: true };
 		default:
 			return state;
 	}

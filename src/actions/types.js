@@ -18,3 +18,4 @@ export const SET_USER_CAPITAL = 'set_user_capital';
 export const SET_USER_CAPITAL_SUCCESS = 'set_user_capital_success';
 export const SET_USER_CAPITAL_FAIL = 'set_user_capital_fail';
 export const FETCH_STATS_SUCCESS = 'fetch_state_success';
+export const FETCH_STATS_SUCCESS_STOCK_SEARCH_REDUCER = 'fetch_state_success_stock_search_reducer';

@@ -39,8 +39,9 @@ export const searchStock = ({ symbol }) => {
 		const request = axios.post('http://localhost:3000/api/v1/searches/search', { symbol })
 			.then((response) => {
 				dispatch({ type: SEARCH_STOCK });
-				searchStockSuccess(dispatch, response);
 				console.log('request', response);
+
+				searchStockSuccess(dispatch, response.data);
 				console.log('dispatch', dispatch);
 			})
 			.catch(() => {
@@ -56,7 +57,7 @@ export const setUserCapital = () => {
 
 	return (dispatch) => {
 		firebase.database().ref(`/users/${currentUser.uid}/stats`)
-			.push({ cash: 100000 })
+			.push({ cash: 100000, email: currentUser.email })
 			.then((response) => {
 				dispatch({ type: SET_USER_CAPITAL });
 				setUserCapitalSuccess(dispatch, response);
@@ -69,7 +70,7 @@ export const setUserCapital = () => {
 const searchStockSuccess = (dispatch, response) => {
 		dispatch({
 		type: SEARCH_STOCK_SUCCESS,
-		payload: response.data.content
+		payload: response
 	});
 
 	Actions.ready();
