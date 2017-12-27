@@ -1,8 +1,9 @@
 import firebase from 'firebase';
-import { Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import React, { Component } from 'react';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { symbolChanged, searchStock, setUserCapital } from '../actions';
+import { symbolChanged, searchStock, setUserCapital, buyStocksTraits } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import StatList from './StatList';
 import StockItem from './renderItemComponents/StockItem';
@@ -31,6 +32,18 @@ class Welcome extends Component {
 		const email = currentUser.email;
 
 		this.props.setUserCapital({ email });
+	}
+
+	onPressBuyStocks() {
+		Actions.buyhome();
+	}
+
+	renderButtonBuyStocks() {
+		return (
+			<Button onPress={this.onPressBuyStocks.bind(this)}>
+				Buy Stocks
+			</Button>
+		);
 	}
 
 	renderButtonMoney() {
@@ -74,50 +87,65 @@ class Welcome extends Component {
 		console.log('this.props.stockObject', this.props.stockObject);
 
 		return (
-			<StockItem stockObject={this.props.stockObject} />
+			<StockItem
+				stockObject={this.props.stockObject}
+				buyStocksTraits={this.props.buyStocksTraits}
+			/>
 		);
 	}
 
 	render() {
 		return (
-			<Card>
-				<Text>Welcome Screen</Text>
-				<CardSection>
-					<Input
-						label="Search By Symbol"
-						placeholder="symbol"
-						onChangeText={this.onSymbolChange.bind(this)}
-						value={this.props.symbol}
-					/>
-				</CardSection>
+			<Card style={{ flex: 1 }}>
+				<ScrollView>
+					<Text>Welcome Screen</Text>
+					<CardSection>
+						<Input
+							label="Search By Symbol"
+							placeholder="symbol"
+							onChangeText={this.onSymbolChange.bind(this)}
+							value={this.props.symbol}
+						/>
+					</CardSection>
 
-				<CardSection>
-					{this.renderButton()}
-				</CardSection>
+					<CardSection>
+						{this.renderButton()}
+					</CardSection>
 
-				<CardSection>
-					{this.renderButtonMoney()}
-				</CardSection>
+					<CardSection>
+						{this.renderButtonMoney()}
+					</CardSection>
 
-				<CardSection>
-					{this.renderStatList()}
-				</CardSection>
 
-				<CardSection>
-					{this.renderStockSearch()}
-				</CardSection>
+					<CardSection>
+						{this.renderStatList()}
+					</CardSection>
+
+					<CardSection>
+						{this.renderStockSearch()}
+					</CardSection>
+
+					<CardSection>
+						{this.renderButtonBuyStocks()}
+					</CardSection>
+				</ScrollView>
 			</Card>
 		);
 	}
 }
 
 const mapStateToProps = ({ search }) => {
-	const { symbol, stockObject, loading, loadingCash } = search;
+	const { symbol, stockObject, loading, loadingCash, loadingSearch } = search;
 
-	return { symbol, stockObject, loading, loadingCash };
+	return { symbol, stockObject, loading, loadingCash, loadingSearch };
 };
 
-export default connect(mapStateToProps, { symbolChanged, searchStock, setUserCapital })(Welcome);
+export default connect(mapStateToProps, { 
+		symbolChanged,
+		searchStock,
+		setUserCapital,
+		buyStocksTraits 
+})(Welcome);
 
 // days percentage c
 // c: "-3.51"

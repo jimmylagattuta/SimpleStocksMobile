@@ -16,6 +16,7 @@ const INITIAL_STATE = {
 	symbol: '',
 	loading: '',
 	loadingCash: '',
+	loadingSearch: false,
 	error: '',
 	user: null,
 	money: false
@@ -26,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
 
 	switch (action.type) {
 		case SEARCH_STOCK:
-			return { ...state };
+			return { ...state, symbol: '', loading: true };
 		case SEARCH_STOCK_SUCCESS:
 			return { ...state, stockObject: action.payload, loading: false };
 		case SEARCH_STOCK_FAIL:
