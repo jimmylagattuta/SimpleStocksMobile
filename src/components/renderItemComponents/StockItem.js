@@ -4,11 +4,11 @@ import { Button } from '../common';
 
 class StockItem extends Component {
 	componentWillMount() {
-		console.log('componentWillMount StockItem');
+		// console.log('componentWillMount StockItem');
 	}
 
 	render() {
-		console.log('StockItems this.props', this.props);
+		// console.log('StockItems this.props', this.props);
 
 		if (this.props.stockObject.symbol) {
 			return (
@@ -28,10 +28,10 @@ class StockItem extends Component {
 								this.props.stockObject.name,
 								this.props.stockObject.price_per_share
 							);
-							console.log('onPress, this.props.stockObject.symbol', 
-								this.props.stockObject.symbol,
-								'this.props.stockObject. price_per_share',
-								this.props.stockObject.price_per_share);
+							// console.log('onPress, this.props.stockObject.symbol', 
+								// this.props.stockObject.symbol,
+								// 'this.props.stockObject. price_per_share',
+								// this.props.stockObject.price_per_share);
 						}}
 					>
 						Buy Shares

@@ -5,7 +5,7 @@ import {
 const INITIAL_STATE = {};
 
 export default (state = INITIAL_STATE, action) => {
-	console.log('action Reducer', action);
+	// console.log('action Reducer', action);
 	switch (action.type) {
 		case FETCH_STATS_SUCCESS:
 			return action.payload;

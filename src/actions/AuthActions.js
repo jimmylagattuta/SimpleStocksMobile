@@ -50,8 +50,8 @@ export const signupPasswordConfirmationChanged = (text) => {
 };
 
 export const loginUser = ({ email, password }) => {
-	console.log('loginUser action');
-	console.log('email', email);
+	// console.log('loginUser action');
+	// console.log('email', email);
 
 	return (dispatch) => {
 		dispatch({ type: LOGIN_USER });
@@ -63,15 +63,15 @@ export const loginUser = ({ email, password }) => {
 };
 
 export const signupUser = ({ signupEmail, signupPassword, signupPasswordConfirmation }) => {
-	console.log('signupUser action');
-	console.log('signupEmail', signupEmail);
-	console.log('signupPassword', signupPassword);
-	console.log('signupPasswordConfirmation', signupPasswordConfirmation);
+	// console.log('signupUser action');
+	// console.log('signupEmail', signupEmail);
+	// console.log('signupPassword', signupPassword);
+	// console.log('signupPasswordConfirmation', signupPasswordConfirmation);
 
 	if (signupPassword === signupPasswordConfirmation) {
-		console.log('EQUAL!');
-		console.log('signupEmail', signupEmail);
-		console.log('signupPassword', signupPassword);
+		// console.log('EQUAL!');
+		// console.log('signupEmail', signupEmail);
+		// console.log('signupPassword', signupPassword);
 
 		return (dispatch) => {
 			dispatch({ type: SIGNUP_USER });
@@ -84,9 +84,9 @@ export const signupUser = ({ signupEmail, signupPassword, signupPasswordConfirma
 				.catch(() => loginUserFailSignup(dispatch));
 		};
 	} else if (signupPassword !== signupPasswordConfirmation) {
-		console.log('X NOT EQUAL!');
-		console.log('signupEmail', signupEmail);
-		console.log('signupPassword', signupPassword);
+		// console.log('X NOT EQUAL!');
+		// console.log('signupEmail', signupEmail);
+		// console.log('signupPassword', signupPassword);
 		return (dispatch) => {
 			loginUserFailSignupConfirmation(dispatch);
 		};

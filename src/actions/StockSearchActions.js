@@ -31,7 +31,7 @@ export const quantityOfStock = (text) => {
 
 export const fetchStats = () => {
 	const { currentUser } = firebase.auth();
-	console.log('this runs');
+	// console.log('this runs');
 
 	return (dispatch) => {
 		firebase.database().ref(`/users/${currentUser.uid}/stats`)
@@ -43,7 +43,7 @@ export const fetchStats = () => {
 
 export const sendStatsForBuy = () => {
 	const { currentUser } = firebase.auth();
-	console.log('this runs');
+	// console.log('this runs');
 
 	return (dispatch) => {
 		firebase.database().ref(`/users/${currentUser.uid}/stats`)
@@ -54,28 +54,28 @@ export const sendStatsForBuy = () => {
 };
 
 export const searchStock = ({ symbol }) => {
-	console.log('searchStock action');
-	console.log('symbol', symbol);
+	// console.log('searchStock action');
+	// console.log('symbol', symbol);
 
 	return (dispatch) => {
 		const request = axios.post('http://localhost:3000/api/v1/searches/search', { symbol })
 			.then((response) => {
 				dispatch({ type: SEARCH_STOCK });
-				console.log('request', response);
+				// console.log('request', response);
 
 				searchStockSuccess(dispatch, response.data);
-				console.log('dispatch', dispatch);
+				// console.log('dispatch', dispatch);
 			})
 			.catch(() => {
 				searchStockFail(dispatch);
-				console.log('request', request);
+				// console.log('request', request);
 			});
 	};
 };
 
 export const setUserCapital = () => {
 	const { currentUser } = firebase.auth();
-	console.log('currentUser', currentUser);
+	// console.log('currentUser', currentUser);
 
 	return (dispatch) => {
 		firebase.database().ref(`/users/${currentUser.uid}/stats`)

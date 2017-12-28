@@ -17,14 +17,14 @@ class Welcome extends Component {
 	}
 
 	onSymbolChange(text) {
-		console.log('text', text);
+		// console.log('text', text);
 
 		this.props.symbolChanged(text);
 	}
 
 	onButtonPressSymbol() {
 		const { symbol } = this.props;
-		console.log('symbol', symbol);
+		// console.log('symbol', symbol);
 		
 		this.props.searchStock({ symbol });
 	}
@@ -85,8 +85,8 @@ class Welcome extends Component {
 	}
 
 	renderStockSearch() {
-		console.log('renderStockSearch, sending to StockItem');
-		console.log('this.props.stockObject', this.props.stockObject);
+		// console.log('renderStockSearch, sending to StockItem');
+		// console.log('this.props.stockObject', this.props.stockObject);
 
 		return (
 			<StockItem

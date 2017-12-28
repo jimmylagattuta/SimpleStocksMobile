@@ -1,30 +1,58 @@
 import React, { Component } from 'react';
 import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { CardSection, Card } from '../common';
+import { connect } from 'react-redux';
+import { sellStocksPage } from '../../actions';
+import { CardSection, Card, Button, Spinner } from '../common';
 
 class StatItem extends Component {
+	onButtonPressSell() {
+		console.log('onButtonPressSell Pressed!');
+		console.log('props near sale', this.props);
+		this.props.sellStocksPage(this.props.stat.stocks[0].symbol, this.props.stat.stocks[0].shares);
+	}
+
+	renderButtonSell() {
+		if (this.props.loadingSell) {
+			return <Spinner size="small" />;
+		}
+
+		return (
+			<Button onPress={this.onButtonPressSell.bind(this)}>
+				Sell Shares
+			</Button>
+		);
+	}
+
 	renderStocks() {
 		console.log('renderStocks this.props', this.props);
 		return (
-			this.props.stat.stocks.map(item =>
-				<Card key={item.symbol}>
+			<Card key={this.props.stat.symbol}>
+				<CardSection>
 					<Text>
-						Symbol: {item.symbol}
+						Symbol: {this.props.stat.stocks[0].symbol}
 					</Text>
+				</CardSection>
+				<CardSection>
 					<Text>
-						Shares: {item.shares}
+						Shares: {this.props.stat.stocks[0].shares}
 					</Text>
-				</Card>
-			)
+				</CardSection>
+				<CardSection>
+					{this.renderButtonSell(
+						this.props.stat.stocks[0].symbol,
+						this.props.stat.stocks[0].shares
+					)}
+				</CardSection>
+			</Card>
 		);
 	}
 	
 	render() {
 		const { stat } = this.props.stat;
-		console.log('listitem, thisprops.stat.cash', this.props.stat.cash);
-		console.log('listitem, thisprops.stat.email', this.props.stat.email);
-		console.log('this.props', this.props);
+		// console.log('listitem, thisprops.stat.cash', this.props.stat.cash);
+		// console.log('listitem, thisprops.stat.email', this.props.stat.email);
+		// console.log('this.props', this.props);
 		if (this.props.stat.stockCapital) {
 			return (
 				<TouchableWithoutFeedback>
@@ -101,4 +129,10 @@ const styles = {
 	}
 };
 
-export default StatItem;
+const mapStateToProps = ({ buy }) => {
+	const { loadingSell } = buy;
+
+	return { loadingSell };
+};
+
+export default connect(mapStateToProps, { sellStocksPage })(StatItem);

@@ -8,8 +8,8 @@ import { Card, CardSection, Input, Button, Spinner } from './common';
 
 class Buy extends Component {
 	componentWillMount() {
-		console.log('Buy, componentWillMount');
-		console.log('Buy this.props', this.props);
+		// console.log('Buy, componentWillMount');
+		// console.log('Buy this.props', this.props);
 		// console.log('this.props.cash', this.props.cash);
 		this.props.sendStatsForBuy();
 
@@ -29,16 +29,16 @@ class Buy extends Component {
 	}
 
 	onButtonPressShares() {
-		console.log('Buy pps,', this.props.toBuyPPS);
-		console.log('Buy cash,', this.props.stats[0].cash);
-		console.log('this.props.quantity', this.props.quantity);
+		// console.log('Buy pps,', this.props.toBuyPPS);
+		// console.log('Buy cash,', this.props.stats[0].cash);
+		// console.log('this.props.quantity', this.props.quantity);
 		const cash = this.props.stats[0].cash;
 		const quantity = this.props.quantity;
 		const pricePerShare = this.props.toBuyPPS;
 		const symbol = this.props.toBuySymbol;
 		const uid = this.props.stats[0].uid;
 		const email = this.props.stats[0].email;
-		console.log('objectTwo,', objectTwo);
+		// console.log('objectTwo,', objectTwo);
 
 		this.props.buyStocks(pricePerShare, cash, quantity, symbol, email, uid);
 	}
@@ -81,17 +81,17 @@ class Buy extends Component {
 	}
 
 	renderRow(stat) {
-		console.log('stat', stat);
+		// console.log('stat', stat);
 
 		return <Text />;
 	}
 
 	render() {
-		console.log('render Buy this.props', this.props);
-		console.log('render this.props.stats[0]', this.props.stats[0]);
-		console.log('Buy pps,', this.props.toBuyPPS);
-		console.log('Buy cash,', this.props.stats[0].cash);
-		console.log('Buy quantity,', this.props.quantity);
+		// console.log('render Buy this.props', this.props);
+		// console.log('render this.props.stats[0]', this.props.stats[0]);
+		// console.log('Buy pps,', this.props.toBuyPPS);
+		// console.log('Buy cash,', this.props.stats[0].cash);
+		// console.log('Buy quantity,', this.props.quantity);
 
 		return (
 			<Card>

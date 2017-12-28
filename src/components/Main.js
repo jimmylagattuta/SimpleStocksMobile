@@ -14,8 +14,8 @@ import { Card, CardSection, Button, Input, Spinner } from './common';
 
 class Main extends Component {
 	componentWillMount() {
-		console.log('Main');
-		console.log('props ~>', this.props);
+		// console.log('Main');
+		// console.log('props ~>', this.props);
 	}
 
 	onEmailChange(text) {

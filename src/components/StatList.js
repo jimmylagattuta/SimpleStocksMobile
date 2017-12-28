@@ -20,6 +20,7 @@ class StatList extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+
 		this.createDataSource(nextProps);
 	}
 
@@ -32,12 +33,15 @@ class StatList extends Component {
 	}
 
 	renderRow(stat) {
-		console.log('stat', stat);
+		// console.log('stat', stat);
 
 		return <StatItem stat={stat} />;
 	}
 
 	render() {
+		console.log('StatList render');
+		console.log('this.props', this.props);
+
 		return (
 			<ListView
 				enableEmptySections

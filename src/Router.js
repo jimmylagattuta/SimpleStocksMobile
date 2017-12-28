@@ -4,6 +4,7 @@ import { Router, Scene } from 'react-native-router-flux';
 import Main from './components/Main';
 import Welcome from './components/Welcome';
 import Buy from './components/Buy';
+import Sell from './components/Sell';
 
 const RouterComponent = () => {
 	return (
@@ -19,6 +20,9 @@ const RouterComponent = () => {
 						</Scene>
 						<Scene key="buyhome">
 							<Scene key="buy" component={Buy} title="Buy" initial />
+						</Scene>
+						<Scene key="sellhome">
+							<Scene key="sell" component={Sell} title="Sell" initial />
 						</Scene>
 					</Scene>
 				</ScrollView>
