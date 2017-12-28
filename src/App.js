@@ -7,6 +7,9 @@ import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
 import Router from './Router';
 
+// heroku api https://simplestocksmobilestocksearch.herokuapp.com/
+
+
 class App extends Component {
 	componentWillMount() {
 		console.log('App ~> Simple Stocks Mobile');

@@ -46,7 +46,7 @@ export const sellStocks = (symbol, shares, uid, sharesOwned, newCash, stockCap, 
 	};
 	return (dispatch) => {
 		dispatch({ type: SELL_STOCKS });
-		axios.post('http://localhost:3000/api/v1/searches/toSell', bundle)
+		axios.post('https://simplestocksmobilestocksearch.herokuapp.com/api/v1/searches/toSell', bundle)
 			.then((response) => {
 				console.log('sellStocks response @.@ ', response.data);
 				const pps = response.data.price_per_share;
@@ -92,7 +92,7 @@ export const sellStocksPage = (symbol, shares) => {
 
 	return (dispatch) => {
 		dispatch({ type: SELL_STOCKS_PAGE });
-		axios.post('http://localhost:3000/api/v1/searches/toSell', bundle)
+		axios.post('https://simplestocksmobilestocksearch.herokuapp.com/api/v1/searches/toSell', bundle)
 			.then((response) => {
 				console.log('sellStocksPage response, ', response);
 				sellStockPageSuccess(dispatch, response);

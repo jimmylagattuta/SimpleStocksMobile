@@ -58,7 +58,7 @@ export const searchStock = ({ symbol }) => {
 	// console.log('symbol', symbol);
 
 	return (dispatch) => {
-		const request = axios.post('http://localhost:3000/api/v1/searches/search', { symbol })
+		const request = axios.post('https://simplestocksmobilestocksearch.herokuapp.com/api/v1/searches/search', { symbol })
 			.then((response) => {
 				dispatch({ type: SEARCH_STOCK });
 				// console.log('request', response);
