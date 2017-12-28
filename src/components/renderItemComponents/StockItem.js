@@ -23,7 +23,11 @@ class StockItem extends Component {
 					<Button
 						style={{ margin: 5 }}
 						onPress={() => {
-							this.props.buyStocksTraits(this.props.stockObject.symbol, this.props.stockObject.price_per_share);
+							this.props.buyStocksTraits(
+								this.props.stockObject.symbol,
+								this.props.stockObject.name,
+								this.props.stockObject.price_per_share
+							);
 							console.log('onPress, this.props.stockObject.symbol', 
 								this.props.stockObject.symbol,
 								'this.props.stockObject. price_per_share',

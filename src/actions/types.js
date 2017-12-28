@@ -25,3 +25,6 @@ export const BUY_STOCKS_SUCCESS = 'buy_stocks_success';
 export const QUANTITY_CHANGED = 'quantity_changed';
 
 export const FETCH_STATS_SUCCESS_FOR_BUY = 'fetch_stats_success_for_buy';
+export const BUY_STOCKS = 'buy_stocks';
+export const BUY_STOCKS_FAIL_CASH = 'buy_stocks_fail_cash';
+export const CASH_SAVE_SUCCESS = 'cash_save_success';
