@@ -12,7 +12,9 @@ import {
 	FETCH_STATS_SUCCESS,
 	BUY_STOCKS_SUCCESS,
 	QUATITTY_CHANGED,
-	FETCH_STATS_SUCCESS_FOR_BUY
+	FETCH_STATS_SUCCESS_FOR_BUY,
+	RENDER_MONEY_TRUE,
+	RENDER_MONEY_FALSE
 } from './types';
 
 export const symbolChanged = (text) => {
@@ -37,7 +39,15 @@ export const fetchStats = () => {
 		firebase.database().ref(`/users/${currentUser.uid}/stats`)
 			.on('value', snapshot => {
 				dispatch({ type: FETCH_STATS_SUCCESS, payload: snapshot.val() });
+				setCashProp(dispatch, snapshot.val());
 			});
+	};
+};
+
+export const setCashProp = (stats) => {
+	console.log('stats ,', stats);
+	return (dispatch) => {
+		dispatch({ type: RENDER_MONEY_TRUE });
 	};
 };
 

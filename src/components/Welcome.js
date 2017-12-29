@@ -1,9 +1,17 @@
+import _ from 'lodash';
 import firebase from 'firebase';
 import { ScrollView, Text } from 'react-native';
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { symbolChanged, searchStock, setUserCapital, buyStocksTraits, fetchStats } from '../actions';
+import {
+	symbolChanged,
+	searchStock,
+	setUserCapital,
+	buyStocksTraits,
+	fetchStats,
+	setCashProp
+} from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import StatList from './StatList';
 import StockItem from './renderItemComponents/StockItem';
@@ -12,7 +20,6 @@ class Welcome extends Component {
 	componentWillMount() {
 		console.log('Welcome page');
 		console.log('this.props', this.props);
-
 		this.props.fetchStats();
 	}
 
@@ -49,11 +56,7 @@ class Welcome extends Component {
 	}
 
 	renderButtonMoney() {
-		if (this.props.money) {
-			return (
-				<Text>${this.props.money}</Text>
-			);
-		} else {
+		if (this.props.noMoney === true) {
 			if (this.props.loadingCash) {
 				return <Spinner size="small" />;
 			}
@@ -62,6 +65,10 @@ class Welcome extends Component {
 				<Button onPress={this.onButtonPressMoney.bind(this)}>
 					Start Buying Stocks
 				</Button>
+			);
+		} else {
+			return (
+				<Text>Hello!</Text>
 			);
 		}
 	}
@@ -80,7 +87,7 @@ class Welcome extends Component {
 
 	renderStatList() {
 		return (
-			<StatList />
+			<StatList noMoney={this.props.noMoney} />
 		);
 	}
 
@@ -126,20 +133,18 @@ class Welcome extends Component {
 					<CardSection>
 						{this.renderStockSearch()}
 					</CardSection>
-
-					<CardSection>
-						{this.renderButtonBuyStocks()}
-					</CardSection>
 				</ScrollView>
 			</Card>
 		);
 	}
 }
 
-const mapStateToProps = ({ search }) => {
-	const { symbol, stockObject, loading, loadingCash, loadingSearch } = search;
-
-	return { symbol, stockObject, loading, loadingCash, loadingSearch };
+const mapStateToProps = (state) => {
+	const { symbol, stockObject, loading, loadingCash, loadingSearch, noMoney } = state.search;
+	const stats = _.map(state.stats, (val, uid) => {
+		return { ...val, uid };
+	});
+	return { symbol, stockObject, loading, loadingCash, loadingSearch, noMoney, stats };
 };
 
 export default connect(mapStateToProps, { 
@@ -147,7 +152,8 @@ export default connect(mapStateToProps, {
 		searchStock,
 		setUserCapital,
 		buyStocksTraits,
-		fetchStats
+		fetchStats,
+		setCashProp
 })(Welcome);
 
 // days percentage c

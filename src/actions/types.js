@@ -35,3 +35,6 @@ export const QUANTITY_SELL_CHANGED = 'quantity_sell_changed';
 export const SELL_STOCKS = 'sell_stocks';
 export const SELL_STOCKS_SUCCESS = 'sell_stocks_success';
 export const SELL_STOCKS_FAIL = 'sell_stocks_fail';
+export const RENDER_MONEY_TRUE = 'render_money_true';
+export const RENDER_MONEY_FALSE = 'render_money_false';
+

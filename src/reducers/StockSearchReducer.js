@@ -8,7 +8,9 @@ import {
 	SET_USER_CAPITAL_FAIL,
 	LOGIN_USER_AFTER_SIGNUP,
 	LOGIN_USER_AFTER_SIGNUP_SUCCESS,
-	FETCH_STATS_SUCCESS_STOCK_SEARCH_REDUCER
+	FETCH_STATS_SUCCESS_STOCK_SEARCH_REDUCER,
+	RENDER_MONEY_TRUE,
+	RENDER_MONEY_FALSE
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,6 +19,7 @@ const INITIAL_STATE = {
 	loading: '',
 	loadingCash: '',
 	loadingSearch: false,
+	noMoney: true,
 	error: '',
 	user: null,
 	money: false
@@ -46,6 +49,10 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, ...INITIAL_STATE, loadingCash: false, user: action.payload };
 		case FETCH_STATS_SUCCESS_STOCK_SEARCH_REDUCER:
 			return { ...state, money: true };
+		case RENDER_MONEY_TRUE:
+			return { ...state, noMoney: false };
+		case RENDER_MONEY_FALSE:
+			return { ...state, noMoney: true };
 		default:
 			return state;
 	}

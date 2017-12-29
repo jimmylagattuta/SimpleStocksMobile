@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ListView, View, Text } from 'react-native';
 import { CardSection } from './common';
-import { fetchStats } from '../actions';
+import { fetchStats, setCashProp } from '../actions';
 import StatItem from './renderItemComponents/StatItem';
 
 class StatList extends Component {
@@ -41,6 +41,11 @@ class StatList extends Component {
 	render() {
 		console.log('StatList render');
 		console.log('this.props', this.props);
+		if (this.props.stats[0] && this.props.noMoney === true) {
+			if (this.props.stats[0].cash) {
+				this.props.setCashProp();
+			}
+		}
 
 		return (
 			<ListView
@@ -60,4 +65,4 @@ const mapStateToProps = state => {
 	return { stats };
 };
 
-export default connect(mapStateToProps, { fetchStats })(StatList);
+export default connect(mapStateToProps, { fetchStats, setCashProp })(StatList);
