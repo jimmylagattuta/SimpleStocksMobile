@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
 import {
 	EMAIL_CHANGED,
@@ -11,7 +12,8 @@ import {
 	LOGIN_USER_FAIL,
 	LOGIN_USER_FAIL_SIGNUP,
 	LOGIN_USER_FAIL_SIGNUP_CONFIRMATION,
-	LOGIN_USER_SUCCESS
+	LOGIN_USER_SUCCESS,
+	SIGNUP_API_SUCCESS
 } from './types';
 
 export const emailChanged = (text) => {
@@ -79,6 +81,7 @@ export const signupUser = ({ signupEmail, signupPassword, signupPasswordConfirma
 			firebase.auth().createUserWithEmailAndPassword(signupEmail, signupPassword)
 				// instead of loginUserSuccess(), send to checkPasswordConfirmation()
 				.then(user => {
+					signupAPI(signupEmail, signupPassword, dispatch);
 					loginUserSuccess(dispatch, user);
 				})
 				.catch(() => loginUserFailSignup(dispatch));
@@ -98,8 +101,6 @@ const loginUserSuccess = (dispatch, user) => {
 		type: LOGIN_USER_SUCCESS,
 		payload: user
 	});
-
-	Actions.ready();
 };
 
 const loginUserFail = (dispatch) => {
@@ -112,4 +113,20 @@ const loginUserFailSignup = (dispatch) => {
 
 const loginUserFailSignupConfirmation = (dispatch) => {
 	dispatch({ type: LOGIN_USER_FAIL_SIGNUP_CONFIRMATION });
+};
+
+export const signupAPI = (signupEmail, signupPassword, dispatch) => {
+	const bundle = {
+		email: signupEmail,
+		password: signupPassword
+	};
+	console.log('bundle', bundle);
+
+	axios.post('https://simplestocksmobilestocksearch.herokuapp.com/api/v1/users/signup', bundle)
+		.then((response) => {
+			console.log('response im looking for,', response);
+			dispatch({ type: SIGNUP_API_SUCCESS, payload: response.data });
+		})
+		.catch((error) => console.log('error,', error));
+	Actions.ready();
 };

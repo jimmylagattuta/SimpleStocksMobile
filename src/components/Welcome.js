@@ -39,8 +39,9 @@ class Welcome extends Component {
 	onButtonPressMoney() {
 		const { currentUser } = firebase.auth();
 		const email = currentUser.email;
+		const id = this.props.id;
 
-		this.props.setUserCapital({ email });
+		this.props.setUserCapital({ email, id });
 	}
 
 	onPressBuyStocks() {
@@ -140,11 +141,11 @@ class Welcome extends Component {
 }
 
 const mapStateToProps = (state) => {
-	const { symbol, stockObject, loading, loadingCash, loadingSearch, noMoney } = state.search;
+	const { symbol, stockObject, loading, loadingCash, loadingSearch, noMoney, id } = state.search;
 	const stats = _.map(state.stats, (val, uid) => {
 		return { ...val, uid };
 	});
-	return { symbol, stockObject, loading, loadingCash, loadingSearch, noMoney, stats };
+	return { symbol, stockObject, loading, loadingCash, loadingSearch, noMoney, id, stats };
 };
 
 export default connect(mapStateToProps, { 

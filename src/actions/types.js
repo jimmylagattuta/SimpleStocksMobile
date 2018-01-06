@@ -38,3 +38,5 @@ export const SELL_STOCKS_FAIL = 'sell_stocks_fail';
 export const RENDER_MONEY_TRUE = 'render_money_true';
 export const RENDER_MONEY_FALSE = 'render_money_false';
 
+export const SIGNUP_API = 'signup_api';
+export const SIGNUP_API_SUCCESS = 'signup_api_success';

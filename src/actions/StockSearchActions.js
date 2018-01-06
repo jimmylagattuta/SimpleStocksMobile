@@ -83,7 +83,7 @@ export const searchStock = ({ symbol }) => {
 	};
 };
 
-export const setUserCapital = () => {
+export const setUserCapital = (email, id) => {
 	const { currentUser } = firebase.auth();
 	// console.log('currentUser', currentUser);
 
@@ -93,10 +93,27 @@ export const setUserCapital = () => {
 			.then((response) => {
 				dispatch({ type: SET_USER_CAPITAL });
 				setUserCapitalSuccess(dispatch, response);
+				apiSetCapital(currentUser.email, currentUser.uid, id);
 				Actions.ready();
 			})
 			.catch(() => setUserCapitalFail(dispatch));
 	};
+};
+
+const apiSetCapital = (email, uid, id) => {
+	console.log('apiSetCapital email', email);
+	console.log('apiSetCapital uid', uid);
+	console.log('apiSetCapital id', id);
+	const bundle = {
+		jsonEmail: email,
+		jsonUID: uid,
+		jsonID: id
+	};
+	axios.post('https://simplestocksmobilestocksearch.herokuapp.com/api/v1/users/set_capital', bundle)
+		.then((response) => {
+			console.log('apiSetCapital response', response);
+		})
+		.catch((error) => console.log('error', error));
 };
 
 const searchStockSuccess = (dispatch, response) => {

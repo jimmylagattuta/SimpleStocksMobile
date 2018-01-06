@@ -10,7 +10,8 @@ import {
 	LOGIN_USER_AFTER_SIGNUP_SUCCESS,
 	FETCH_STATS_SUCCESS_STOCK_SEARCH_REDUCER,
 	RENDER_MONEY_TRUE,
-	RENDER_MONEY_FALSE
+	RENDER_MONEY_FALSE,
+	SIGNUP_API_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -22,7 +23,8 @@ const INITIAL_STATE = {
 	noMoney: true,
 	error: '',
 	user: null,
-	money: false
+	money: false,
+	id: 0
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -53,6 +55,8 @@ export default (state = INITIAL_STATE, action) => {
 			return { ...state, noMoney: false };
 		case RENDER_MONEY_FALSE:
 			return { ...state, noMoney: true };
+		case SIGNUP_API_SUCCESS:
+			return { ...state, id: action.payload.content.id };
 		default:
 			return state;
 	}
