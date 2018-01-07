@@ -8,10 +8,9 @@ import { Card, CardSection, Input, Button, Spinner } from './common';
 
 class Buy extends Component {
 	componentWillMount() {
-		// console.log('Buy, componentWillMount');
-		// console.log('Buy this.props', this.props);
-		// console.log('this.props.cash', this.props.cash);
+		console.log('Buy this.props @_@', this.props);
 		this.props.sendStatsForBuy();
+		// this.props.updateStocks();
 
 		this.createDataSource(this.props);
 	}
@@ -29,6 +28,7 @@ class Buy extends Component {
 	}
 
 	onButtonPressShares() {
+		console.log('Buy props here ', this.props);
 		// console.log('Buy pps,', this.props.toBuyPPS);
 		// console.log('Buy cash,', this.props.stats[0].cash);
 		// console.log('this.props.quantity', this.props.quantity);
@@ -38,9 +38,10 @@ class Buy extends Component {
 		const symbol = this.props.toBuySymbol;
 		const uid = this.props.stats[0].uid;
 		const email = this.props.stats[0].email;
+		const id = this.props.stats[0].rubyID;
 		// console.log('objectTwo,', objectTwo);
 
-		this.props.buyStocks(pricePerShare, cash, quantity, symbol, email, uid);
+		this.props.buyStocks(pricePerShare, cash, quantity, symbol, email, uid, id);
 	}
 
 	createDataSource({ stats }) {
@@ -159,7 +160,15 @@ const mapStateToProps = state => {
 		return { ...val, uid };
 	});
 
-	return { stats, toBuySymbol, toBuyName, toBuyPPS, quantity, loadingBuyStocks, errorBuyStocks };
+	return {
+		stats,
+		toBuySymbol,
+		toBuyName,
+		toBuyPPS,
+		quantity,
+		loadingBuyStocks,
+		errorBuyStocks
+	};
 };
 
 export default connect(mapStateToProps, { sendStatsForBuy, quantityChanged, buyStocks })(Buy);

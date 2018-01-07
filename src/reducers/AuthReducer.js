@@ -66,7 +66,7 @@ export default (state = INITIAL_STATE, action) => {
 		case LOGIN_USER_FAIL_SIGNUP_CONFIRMATION:
 			return {
 				...state,
-				errorSignupConfirmation: 'Passwords must match',
+				errorSignupConfirmation: "Passwords Didn't Match",
 				errorSignup: '',
 				signupPassword: '',
 				signupPasswordConfirmation: '',

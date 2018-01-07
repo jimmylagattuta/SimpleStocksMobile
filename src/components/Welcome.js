@@ -10,7 +10,9 @@ import {
 	setUserCapital,
 	buyStocksTraits,
 	fetchStats,
-	setCashProp
+	setCashProp,
+	updateStocks,
+	startBuyStocksClear
 } from '../actions';
 import { Card, CardSection, Input, Button, Spinner } from './common';
 import StatList from './StatList';
@@ -19,8 +21,10 @@ import StockItem from './renderItemComponents/StockItem';
 class Welcome extends Component {
 	componentWillMount() {
 		console.log('Welcome page');
-		console.log('this.props', this.props);
+		console.log('this.props @_@ Welcome', this.props);
 		this.props.fetchStats();
+		// const id = this.props.stats[0].rubyID;
+		// this.props.updateStocks(id);
 	}
 
 	onSymbolChange(text) {
@@ -37,11 +41,12 @@ class Welcome extends Component {
 	}
 
 	onButtonPressMoney() {
+		console.log('this.props setUserCapital,', this.props);
 		const { currentUser } = firebase.auth();
 		const email = currentUser.email;
 		const id = this.props.id;
 
-		this.props.setUserCapital({ email, id });
+		this.props.setUserCapital(email, id);
 	}
 
 	onPressBuyStocks() {
@@ -57,20 +62,15 @@ class Welcome extends Component {
 	}
 
 	renderButtonMoney() {
-		if (this.props.noMoney === true) {
-			if (this.props.loadingCash) {
-				return <Spinner size="small" />;
-			}
-
+		if (this.props.renderStartBuyingStocks) {
+			// this.props.startBuyStocksClear();
 			return (
 				<Button onPress={this.onButtonPressMoney.bind(this)}>
 					Start Buying Stocks
 				</Button>
 			);
-		} else {
-			return (
-				<Text>Hello!</Text>
-			);
+		} else if (this.props.loadingCash) {
+				return <Spinner size="small" />;
 		}
 	}
 
@@ -105,6 +105,8 @@ class Welcome extends Component {
 	}
 
 	render() {
+		console.log('this.props @_@ Welcome', this.props);
+
 		return (
 			<Card style={{ flex: 1 }}>
 				<ScrollView>
@@ -141,11 +143,30 @@ class Welcome extends Component {
 }
 
 const mapStateToProps = (state) => {
-	const { symbol, stockObject, loading, loadingCash, loadingSearch, noMoney, id } = state.search;
+	const {
+		symbol,
+		stockObject,
+		loading, 
+		loadingCash, 
+		loadingSearch, 
+		noMoney, 
+		id, 
+		renderStartBuyingStocks 
+	} = state.search;
 	const stats = _.map(state.stats, (val, uid) => {
 		return { ...val, uid };
 	});
-	return { symbol, stockObject, loading, loadingCash, loadingSearch, noMoney, id, stats };
+	return {
+		symbol,
+		stockObject,
+		loading,
+		loadingCash,
+		loadingSearch,
+		noMoney,
+		id,
+		renderStartBuyingStocks,
+		stats
+	};
 };
 
 export default connect(mapStateToProps, { 
@@ -154,7 +175,9 @@ export default connect(mapStateToProps, {
 		setUserCapital,
 		buyStocksTraits,
 		fetchStats,
-		setCashProp
+		setCashProp,
+		updateStocks,
+		startBuyStocksClear
 })(Welcome);
 
 // days percentage c

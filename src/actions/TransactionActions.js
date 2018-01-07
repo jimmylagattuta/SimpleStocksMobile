@@ -69,19 +69,6 @@ export const sellStocks = (symbol, shares, uid, sharesOwned, newCash, stockCap, 
 	};
 };
 
-const sellStocksSuccess = (dispatch, newCash, stockCap, email, uid) => {
-	const { currentUser } = firebase.auth();
-
-	firebase.database().ref(`/users/${currentUser.uid}/stats/${uid}`)
-		.set({ cash: newCash, email, stockCapital: stockCap })
-		.then((response) => {
-			// console.log('response im looking at', response);
-			// dispatch({ type: CASH_SAVE_SUCCESS });
-			dispatch({ type: SELL_STOCKS_SUCCESS, payload: response });
-			Actions.ready();
-		});
-};
-
 export const sellStocksPage = (symbol, shares) => {
 	const bundle = {
 		jsonSymbol: symbol,
@@ -98,11 +85,6 @@ export const sellStocksPage = (symbol, shares) => {
 				sellStockPageSuccess(dispatch, response);
 			});
 	};
-};
-
-const sellStockPageSuccess = (dispatch, response) => {
-	dispatch({ type: SELL_STOCKS_PAGE_SUCCESS, payload: response });
-	Actions.sellhome();
 };
 
 export const buyStocksTraits = (symbol, name, pricePerShare) => {
@@ -122,22 +104,21 @@ export const buyStocksTraits = (symbol, name, pricePerShare) => {
 	};
 };
 
-export const buyStocks = (pricePerShare, cash, quantity, symbol, email, uid) => {
+export const statUpdate = ({ prop, value }) => {
+	return {
+		type: STAT_UPDATE,
+		payload: { prop, value }
+	};
+};
+
+export const buyStocks = (pricePerShare, cash, quantity, symbol, email, uid, id) => {
 	const { currentUser } = firebase.auth();
 	const calculation = (pricePerShare * quantity);
-	// console.log('calculation', calculation.toFixed(2));
-	// console.log('pricePerShare,', pricePerShare);
-	// console.log('cash,', cash);
 	const newCash = cash - calculation;
-	// console.log('quantity,', quantity);
-	// console.log('symbol,', symbol);
-	// console.log('email,', email);
-	// console.log('newCash,', newCash);
 	const object = [{
 		symbol: symbol,
 		shares: quantity
 	}];
-	// console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
 
 	if (calculation > cash) {
 		return (dispatch) => {
@@ -146,21 +127,40 @@ export const buyStocks = (pricePerShare, cash, quantity, symbol, email, uid) => 
 	} else if (calculation <= cash) {
 		return (dispatch) => {
 			dispatch({ type: BUY_STOCKS });
-			firebase.database().ref(`/users/${currentUser.uid}/stats/${uid}`)
-				.set({ cash: newCash, email, stockCapital: calculation, stocks: object })
-				.then((response) => {
-					// console.log('response im looking at', response);
-					// dispatch({ type: CASH_SAVE_SUCCESS });
-					dispatch({ type: CASH_SAVE_SUCCESS });
-					setStockCapital(calculation, symbol, quantity);
-					Actions.ready();
-				});
-			// saveStockCapital(pricePerShare, quantity);
-			// saveStockCapitalDetails(symbol, pricePerShare, quantity);
+			buyStocksAPI(pricePerShare, cash, quantity, symbol, email, uid, id, dispatch);
 		};
 	}
 };
 
+const buyStocksAPI = (pricePerShare, cash, quantity, symbol, email, uid, id, dispatch) => {
+	const calculation = (pricePerShare * quantity);
+	const newCash = cash - calculation;
+	console.log('buyStocksAPI pricePerShare ', pricePerShare);
+	console.log('buyStocksAPI cash ', cash);
+	console.log('buyStocksAPI quantity ', quantity);
+	console.log('buyStocksAPI symbol ', symbol);
+	console.log('buyStocksAPI email ', email);
+	console.log('buyStocksAPI uid ', uid);
+	console.log('buyStocksAPI id ', id);
+	const bundle = {
+		jsonPPS: pricePerShare,
+		jsonCash: cash,
+		jsonQuantity: quantity,
+		jsonSymbol: symbol,
+		jsonEmail: email,
+		jsonUID: uid,
+		jsonID: id
+	};
+
+	axios.post('https://simplestocksmobilestocksearch.herokuapp.com/api/v1/transactions/buy_stocks', bundle)
+		.then((response) => {
+			console.log('buyStocksAPI response ', response);
+			dispatch({ type: CASH_SAVE_SUCCESS, payload: response });
+			setStockCapital(calculation, symbol, quantity);
+			Actions.ready({ type: 'reset' });
+		})
+		.catch((error) => console.log('error ', error));
+};
 
 const setStockCapital = (calculation, symbol, quantity) => {
 	const { currentUser } = firebase.auth();
@@ -191,11 +191,17 @@ const setStockObject = (symbol, quantity) => {
 	};
 };
 
-export const statUpdate = ({ prop, value }) => {
-	return {
-		type: STAT_UPDATE,
-		payload: { prop, value }
-	};
+const sellStocksSuccess = (dispatch, newCash, stockCap, email, uid) => {
+	const { currentUser } = firebase.auth();
+
+	firebase.database().ref(`/users/${currentUser.uid}/stats/${uid}`)
+		.set({ cash: newCash, email, stockCapital: stockCap })
+		.then((response) => {
+			// console.log('response im looking at', response);
+			// dispatch({ type: CASH_SAVE_SUCCESS });
+			dispatch({ type: SELL_STOCKS_SUCCESS, payload: response });
+			Actions.ready();
+		});
 };
 
 const saveCashUpdate = (pricePerShare, newCash, quantity, uid) => {
@@ -215,4 +221,9 @@ const saveCashUpdate = (pricePerShare, newCash, quantity, uid) => {
 				dispatch({ type: CASH_SAVE_SUCCESS });
 			});
 	};
+};
+
+const sellStockPageSuccess = (dispatch, response) => {
+	dispatch({ type: SELL_STOCKS_PAGE_SUCCESS, payload: response });
+	Actions.sellhome();
 };

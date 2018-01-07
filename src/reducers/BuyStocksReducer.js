@@ -23,6 +23,7 @@ const INITIAL_STATE = {
 	loading: '',
 	error: '',
 	cash: 0.00,
+	stockCapital: 0,
 	quantity: 0,
 	loadingBuyStocks: false,
 	errorBuyStocks: '',
@@ -33,7 +34,8 @@ const INITIAL_STATE = {
 	loadingSellProp: false,
 	errorSellProp: '',
 	loadingSelling: false,
-	errorSelling: ''
+	errorSelling: '',
+	userStocks: []
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -58,7 +60,15 @@ export default (state = INITIAL_STATE, action) => {
 		case BUY_STOCKS_FAIL_CASH:
 			return { ...state, loadingBuyStocks: false, errorBuyStocks: 'Exceeds Your Budget' };
 		case CASH_SAVE_SUCCESS:
-			return { ...state, loadingBuyStocks: false, errorBuyStocks: '', quantity: 0 };
+			return {
+				...state,
+				loadingBuyStocks: false,
+				errorBuyStocks: '',
+				quantity: 0,
+				cash: action.payload.data.content.cash,
+				userStocks: action.payload.data.userStocks,
+				stockCapital: action.payload.data.content.stock_capital
+			};
 		case STAT_UPDATE:
 			return { ...state, [action.payload.prop]: action.payload.value };
 		case SELL_STOCKS_PAGE:

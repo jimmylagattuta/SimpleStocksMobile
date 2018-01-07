@@ -14,7 +14,8 @@ import {
 	QUATITTY_CHANGED,
 	FETCH_STATS_SUCCESS_FOR_BUY,
 	RENDER_MONEY_TRUE,
-	RENDER_MONEY_FALSE
+	RENDER_MONEY_FALSE,
+	START_BUY_STOCKS_CLEAR
 } from './types';
 
 export const symbolChanged = (text) => {
@@ -45,7 +46,8 @@ export const fetchStats = () => {
 };
 
 export const setCashProp = (stats) => {
-	console.log('stats ,', stats);
+	console.log('stats im looking at ,', stats);
+
 	return (dispatch) => {
 		dispatch({ type: RENDER_MONEY_TRUE });
 	};
@@ -53,12 +55,15 @@ export const setCashProp = (stats) => {
 
 export const sendStatsForBuy = () => {
 	const { currentUser } = firebase.auth();
+	const id = currentUser.rubyID;
 	// console.log('this runs');
-
+	const bundle = {
+		rubyID: id
+	};
 	return (dispatch) => {
-		firebase.database().ref(`/users/${currentUser.uid}/stats`)
-			.on('value', snapshot => {
-				dispatch({ type: FETCH_STATS_SUCCESS_FOR_BUY, payload: snapshot.val() });
+		axios.post('https://simplestocksmobilestocksearch.herokuapp.com/api/v1/users/cash', bundle)
+			.then((response) => {
+				dispatch({ type: FETCH_STATS_SUCCESS_FOR_BUY, payload: response });
 			});
 	};
 };
@@ -89,18 +94,35 @@ export const setUserCapital = (email, id) => {
 
 	return (dispatch) => {
 		firebase.database().ref(`/users/${currentUser.uid}/stats`)
-			.push({ cash: 100000, email: currentUser.email })
+			.push({ cash: 100000, email: currentUser.email, rubyID: id })
 			.then((response) => {
-				dispatch({ type: SET_USER_CAPITAL });
-				setUserCapitalSuccess(dispatch, response);
-				apiSetCapital(currentUser.email, currentUser.uid, id);
+				apiSetCapital(currentUser.email, currentUser.uid, id, dispatch);
 				Actions.ready();
 			})
 			.catch(() => setUserCapitalFail(dispatch));
 	};
 };
 
-const apiSetCapital = (email, uid, id) => {
+export const updateStocks = (id) => {
+	console.log('updateStocks id', id);
+	const bundle = {
+		jsonID: id
+	};
+
+	return (dispatch) => {
+		axios.post('https://simplestocksmobilestocksearch.herokuapp.com/api/v1/users/update_stocks', bundle)
+			.then((response) => console.log('updateStocks response', response))
+			.catch((error) => console.log('error', error));
+	};
+};
+
+export const startBuyStocksClear = () => {
+	return (dispatch) => {
+		dispatch({ type: START_BUY_STOCKS_CLEAR });
+	};
+};
+
+const apiSetCapital = (email, uid, id, dispatch) => {
 	console.log('apiSetCapital email', email);
 	console.log('apiSetCapital uid', uid);
 	console.log('apiSetCapital id', id);
@@ -111,7 +133,9 @@ const apiSetCapital = (email, uid, id) => {
 	};
 	axios.post('https://simplestocksmobilestocksearch.herokuapp.com/api/v1/users/set_capital', bundle)
 		.then((response) => {
+			dispatch({ type: SET_USER_CAPITAL });
 			console.log('apiSetCapital response', response);
+			setUserCapitalSuccess(dispatch, response);
 		})
 		.catch((error) => console.log('error', error));
 };

@@ -11,7 +11,8 @@ import {
 	FETCH_STATS_SUCCESS_STOCK_SEARCH_REDUCER,
 	RENDER_MONEY_TRUE,
 	RENDER_MONEY_FALSE,
-	SIGNUP_API_SUCCESS
+	SIGNUP_API_SUCCESS,
+	START_BUY_STOCKS_CLEAR
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -24,7 +25,8 @@ const INITIAL_STATE = {
 	error: '',
 	user: null,
 	money: false,
-	id: 0
+	id: null,
+	renderStartBuyingStocks: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -56,7 +58,9 @@ export default (state = INITIAL_STATE, action) => {
 		case RENDER_MONEY_FALSE:
 			return { ...state, noMoney: true };
 		case SIGNUP_API_SUCCESS:
-			return { ...state, id: action.payload.content.id };
+			return { ...state, id: action.payload.content.id, renderStartBuyingStocks: true };
+		case START_BUY_STOCKS_CLEAR:
+			return { ...state, renderStartBuyingStocks: false };
 		default:
 			return state;
 	}

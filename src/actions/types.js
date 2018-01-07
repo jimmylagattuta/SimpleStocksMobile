@@ -40,3 +40,4 @@ export const RENDER_MONEY_FALSE = 'render_money_false';
 
 export const SIGNUP_API = 'signup_api';
 export const SIGNUP_API_SUCCESS = 'signup_api_success';
+export const START_BUY_STOCKS_CLEAR = 'start_buy_stocks_clear';

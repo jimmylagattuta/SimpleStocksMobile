@@ -96,25 +96,6 @@ export const signupUser = ({ signupEmail, signupPassword, signupPasswordConfirma
 	}
 };
 
-const loginUserSuccess = (dispatch, user) => {
-	dispatch({
-		type: LOGIN_USER_SUCCESS,
-		payload: user
-	});
-};
-
-const loginUserFail = (dispatch) => {
-	dispatch({ type: LOGIN_USER_FAIL });
-};
-
-const loginUserFailSignup = (dispatch) => {
-	dispatch({ type: LOGIN_USER_FAIL_SIGNUP });
-};
-
-const loginUserFailSignupConfirmation = (dispatch) => {
-	dispatch({ type: LOGIN_USER_FAIL_SIGNUP_CONFIRMATION });
-};
-
 export const signupAPI = (signupEmail, signupPassword, dispatch) => {
 	const bundle = {
 		email: signupEmail,
@@ -130,3 +111,25 @@ export const signupAPI = (signupEmail, signupPassword, dispatch) => {
 		.catch((error) => console.log('error,', error));
 	Actions.ready();
 };
+
+const loginUserSuccess = (dispatch, user) => {
+	dispatch({
+		type: LOGIN_USER_SUCCESS,
+		payload: user
+	});
+
+	Actions.ready();
+};
+
+const loginUserFail = (dispatch) => {
+	dispatch({ type: LOGIN_USER_FAIL });
+};
+
+const loginUserFailSignup = (dispatch) => {
+	dispatch({ type: LOGIN_USER_FAIL_SIGNUP });
+};
+
+const loginUserFailSignupConfirmation = (dispatch) => {
+	dispatch({ type: LOGIN_USER_FAIL_SIGNUP_CONFIRMATION });
+};
+
